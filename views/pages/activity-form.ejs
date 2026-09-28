@@ -1,0 +1,165 @@
+<%- include('../partials/header') %>
+<%- include('../partials/navbar') %>
+
+<div class="form-page-container">
+  <div class="form-wrapper">
+    
+    <!-- رأس الفورم -->
+    <div class="form-header-bar">
+      <div>
+        <span class="category-pill">Programmation Sportive</span>
+        <h1 class="main-title"><%= (typeof activity !== 'undefined' && activity && activity.id) ? 'Modifier l\'activité' : 'Nouvelle Activité' %></h1>
+        <p class="sub-text">Renseignez les informations relatives au créneau ou à la discipline.</p>
+      </div>
+      <a href="/activities" class="btn-ghost">
+        <span>←</span> Retour à la liste
+      </a>
+    </div>
+
+    <!-- البطاقة الرئيسية -->
+    <div class="glass-card">
+      <form action="<%= (typeof activity !== 'undefined' && activity && activity.id) ? '/activities/' + activity.id + '/edit' : '/activities' %>" method="POST" class="smart-grid">
+        
+        <!-- اسم النشاط -->
+        <div class="field-item col-full">
+          <label for="name">Intitulé de la discipline / activité <span class="req">*</span></label>
+          <div class="input-wrapper">
+            <span class="field-icon">⚡</span>
+            <input 
+              type="text" 
+              id="name" 
+              name="name" 
+              placeholder="ex: Natation Perfectionnement, Tournoi Basketball..." 
+              required 
+              value="<%= (typeof activity !== 'undefined' && activity && activity.name) ? activity.name : '' %>"
+            >
+          </div>
+        </div>
+
+        <!-- البنية التحتية -->
+        <div class="field-item col-half">
+          <label for="facility_id">Infrastructure assignée <span class="req">*</span></label>
+          <div class="input-wrapper">
+            <span class="field-icon">📍</span>
+            <select id="facility_id" name="facility_id" required>
+              <option value="" disabled selected>Sélectionner une infrastructure</option>
+              <% if (typeof facilities !== 'undefined' && Array.isArray(facilities)) { %>
+                <% facilities.forEach(f => { %>
+                  <option 
+                    value="<%= f.id %>" 
+                    <%= (typeof activity !== 'undefined' && activity && activity.facility_id === f.id) ? 'selected' : '' %>
+                  >
+                    <%= f.name %>
+                  </option>
+                <% }) %>
+              <% } %>
+            </select>
+          </div>
+        </div>
+
+        <!-- السعر الأسبوعي / السنوي -->
+        <div class="field-item col-quarter">
+          <label for="base_price">Tarif de base (DH) <span class="req">*</span></label>
+          <div class="input-wrapper">
+            <span class="field-icon">💰</span>
+            <input 
+              type="number" 
+              step="0.01" 
+              id="base_price" 
+              name="base_price" 
+              placeholder="250.00" 
+              required 
+              value="<%= (typeof activity !== 'undefined' && activity && activity.base_price) ? activity.base_price : '' %>"
+            >
+          </div>
+        </div>
+
+        <!-- الطاقة الاستيعابية -->
+        <div class="field-item col-quarter">
+          <label for="capacity">Capacité Max <span class="req">*</span></label>
+          <div class="input-wrapper">
+            <span class="field-icon">👥</span>
+            <input 
+              type="number" 
+              id="max_capacity" 
+              name="max_capacity" 
+              placeholder="30" 
+              min="1" 
+              required 
+              value="<%= (typeof activity !== 'undefined' && activity && activity.max_capacity) ? activity.max_capacity : '' %>"
+            >
+          </div>
+        </div>
+
+        <!-- الوصف -->
+        <div class="field-item col-full">
+          <label for="description">Description & Consignes</label>
+          <textarea 
+            id="description" 
+            name="description" 
+            rows="3" 
+            placeholder="Détails du programme, niveau requis, tenue demandée..."
+          ><%= (typeof activity !== 'undefined' && activity && activity.description) ? activity.description : '' %></textarea>
+        </div>
+
+        <!-- الأزرار -->
+        <div class="field-item col-half">
+          <label for="association_id">Association <span class="req">*</span></label>
+          <div class="input-wrapper">
+            <select id="association_id" name="association_id" required>
+              <option value="" disabled <%= !(typeof activity !== 'undefined' && activity && activity.association_id) ? 'selected' : '' %>>Select an association</option>
+              <% if (typeof associations !== 'undefined' && Array.isArray(associations)) { %>
+                <% associations.forEach(association => { %>
+                  <option value="<%= association.id %>" <%= (typeof activity !== 'undefined' && activity && Number(activity.association_id) === Number(association.id)) ? 'selected' : '' %>><%= association.name %></option>
+                <% }) %>
+              <% } %>
+            </select>
+          </div>
+        </div>
+
+        <div class="field-item col-quarter">
+          <label for="day_of_week">Day <span class="req">*</span></label>
+          <div class="input-wrapper">
+            <select id="day_of_week" name="day_of_week" required>
+              <% ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'].forEach((day, index) => { %>
+                <option value="<%= index + 1 %>" <%= (typeof activity !== 'undefined' && activity && Number(activity.day_of_week) === index + 1) ? 'selected' : '' %>><%= day %></option>
+              <% }) %>
+            </select>
+          </div>
+        </div>
+
+        <div class="field-item col-quarter">
+          <label for="start_time">Start time <span class="req">*</span></label>
+          <div class="input-wrapper"><input type="time" id="start_time" name="start_time" required value="<%= (typeof activity !== 'undefined' && activity && activity.start_time) ? String(activity.start_time).slice(0, 5) : '' %>" onchange="document.getElementById('end_time').min = this.value"></div>
+        </div>
+
+        <div class="field-item col-quarter">
+          <label for="end_time">End time <span class="req">*</span></label>
+          <div class="input-wrapper"><input type="time" id="end_time" name="end_time" required value="<%= (typeof activity !== 'undefined' && activity && activity.end_time) ? String(activity.end_time).slice(0, 5) : '' %>"></div>
+        </div>
+
+        <div class="field-item col-quarter">
+          <label for="age_category">Age category <span class="req">*</span></label>
+          <div class="input-wrapper">
+            <select id="age_category" name="age_category" required>
+              <% ['Baby', 'U9', 'U11', 'U13', 'U15', 'U18', 'Senior', 'Master', 'Tous publics'].forEach(category => { %>
+                <option value="<%= category %>" <%= (typeof activity !== 'undefined' && activity && activity.age_category === category) ? 'selected' : '' %>><%= category %></option>
+              <% }) %>
+            </select>
+          </div>
+        </div>
+
+        <div class="form-actions-bar col-full">
+          <a href="/activities" class="btn-cancel">Annuler</a>
+          <button type="submit" class="btn-submit">
+            Enregistrer l'activité
+          </button>
+        </div>
+
+      </form>
+    </div>
+
+  </div>
+</div>
+
+<%- include('../partials/footer') %>

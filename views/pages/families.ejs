@@ -1,0 +1,37 @@
+<%- include('../partials/header') %>
+
+<main class="container">
+  <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 2rem;">
+    <div>
+      <h1 style="font-size: 2rem; font-weight: 800;">Gestion des Foyers Fiscaux</h1>
+      <p style="color: var(--text-muted);">Suivi des quotients familiaux et du statut de résidence</p>
+    </div>
+    <a href="/families/new" class="btn">+ Nouveau Foyer</a>
+  </div>
+
+  <div class="kpi-grid">
+    <% families.forEach(family => { %>
+      <div class="card">
+        <div>
+          <h3>👨‍👩‍👦 <%= family.name %></h3>
+          <p style="color: var(--text-muted); margin-bottom: 0.5rem;">
+            <strong>Quotient Familial :</strong> <%= family.quotient_familial %> €
+          </p>
+          <p style="color: var(--text-muted); margin-bottom: 0.5rem;">
+            <strong>Statut :</strong> 
+            <% if (family.is_resident) { %>
+              <span style="color: #4ade80;">Résident communal</span>
+            <% } else { %>
+              <span style="color: #f87171;">Extérieur (+35%)</span>
+            <% } %>
+          </p>
+          <p style="color: var(--text-muted);">
+            <strong>Adhérents rattachés :</strong> <%= family.members_count || 0 %>
+          </p>
+        </div>
+      </div>
+    <% }) %>
+  </div>
+</main>
+
+<%- include('../partials/footer') %>

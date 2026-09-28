@@ -1,0 +1,302 @@
+<%- include('../partials/header') %>
+<%- include('../partials/navbar') %>
+
+<main class="page-wrapper">
+  <div class="content-container">
+
+    <!-- شريط التنقل العلوي -->
+    <div class="breadcrumb-bar">
+      <a href="/activities" class="btn-back">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
+        Retour à la liste des activités
+      </a>
+    </div>
+
+    <!-- البطاقة الرئيسية بكامل العرض -->
+    <div class="main-card">
+      <div class="card-header-banner">
+        <div>
+          <div class="badges-row">
+            <span class="badge badge-orange">ACTIVITÉ #<%= activity.id %></span>
+            <span class="badge badge-green">DISPONIBLE</span>
+          </div>
+          <h1 class="activity-heading"><%= activity.name %></h1>
+          <p class="facility-sub">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+            <strong>Lieu d'activité :</strong> <%= activity.facility_name || 'Non spécifié' %>
+          </p>
+        </div>
+
+        <div>
+          <a href="/checkout?activityId=<%= activity.id %>" class="btn-action-primary">
+            S'inscrire à l'activité
+          </a>
+        </div>
+      </div>
+
+      <!-- شبكة الإحصائيات والمعلومات -->
+      <div class="details-grid">
+        <div class="detail-box">
+          <div class="box-icon">💳</div>
+          <div>
+            <div class="box-title">TARIF D'ADHÉSION</div>
+            <div class="box-value text-green">
+              <%= activity.tarif_base || activity.price || activity.base_price || activity.monthly_fee || '0.00' %> <span class="unit">MAD</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="detail-box">
+          <div class="box-icon">👥</div>
+          <div>
+            <div class="box-title">CAPACITÉ MAXIMALE</div>
+            <div class="box-value">
+              <%= activity.capacite_max || activity.max_capacity || activity.capacity || activity.max_participants || activity.places || '20' %> <span class="unit">places</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="detail-box">
+          <div class="box-icon">🏟️</div>
+          <div>
+            <div class="box-title">INFRASTRUCTURE</div>
+            <div class="box-value text-blue">
+              <%= activity.facility_name || 'Installation sportive' %>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- قسم الوصف -->
+      <div class="section-description">
+        <h3 class="section-header">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/></svg>
+          À propos de cette activité
+        </h3>
+        <div class="desc-content">
+          <%= activity.description || 'Entraînement technique et matchs.' %>
+        </div>
+      </div>
+
+      <!-- أزرار الإجراءات السفلية -->
+      <div class="card-footer-bar">
+        <a href="/activities" class="btn-action-secondary">← Retour au catalogue</a>
+        <a href="/checkout?activityId=<%= activity.id %>" class="btn-action-dark">Passer à l'inscription →</a>
+      </div>
+    </div>
+
+  </div>
+</main>
+
+<%- include('../partials/footer') %>
+
+<style>
+  .page-wrapper {
+    background-color: #f8fafc;
+    min-height: calc(100vh - 140px);
+    padding: 30px 50px;
+    width: 100%;
+    box-sizing: border-box;
+  }
+
+  .content-container {
+    width: 100%;
+    max-width: 1400px;
+    margin: 0 auto;
+  }
+
+  .breadcrumb-bar {
+    margin-bottom: 20px;
+  }
+
+  .btn-back {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    color: #475569;
+    text-decoration: none;
+    font-weight: 600;
+    font-size: 0.95rem;
+  }
+
+  .btn-back:hover {
+    color: #f97316;
+  }
+
+  .main-card {
+    background: #ffffff;
+    border: 1px solid #e2e8f0;
+    border-radius: 12px;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
+    overflow: hidden;
+  }
+
+  .card-header-banner {
+    padding: 35px 40px;
+    border-bottom: 1px solid #f1f5f9;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .badges-row {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 12px;
+  }
+
+  .badge {
+    padding: 4px 10px;
+    border-radius: 6px;
+    font-size: 0.75rem;
+    font-weight: 700;
+    letter-spacing: 0.5px;
+  }
+
+  .badge-orange {
+    background-color: #ffedd5;
+    color: #ea580c;
+  }
+
+  .badge-green {
+    background-color: #dcfce7;
+    color: #16a34a;
+  }
+
+  .activity-heading {
+    font-size: 2.2rem;
+    font-weight: 800;
+    color: #0f172a;
+    margin: 0 0 10px 0;
+  }
+
+  .facility-sub {
+    margin: 0;
+    color: #64748b;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 1rem;
+  }
+
+  .btn-action-primary {
+    background: #ea580c;
+    color: #ffffff;
+    padding: 12px 24px;
+    border-radius: 8px;
+    font-weight: 700;
+    text-decoration: none;
+    display: inline-block;
+    transition: background 0.2s;
+  }
+
+  .btn-action-primary:hover {
+    background: #c2410c;
+  }
+
+  .details-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 20px;
+    padding: 35px 40px;
+    border-bottom: 1px solid #f1f5f9;
+    background-color: #ffffff;
+  }
+
+  .detail-box {
+    background: #f8fafc;
+    border: 1px solid #e2e8f0;
+    border-radius: 10px;
+    padding: 20px;
+    display: flex;
+    align-items: center;
+    gap: 16px;
+  }
+
+  .box-icon {
+    font-size: 2rem;
+    background: #ffffff;
+    width: 48px;
+    height: 48px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 8px;
+    border: 1px solid #e2e8f0;
+  }
+
+  .box-title {
+    font-size: 0.75rem;
+    font-weight: 700;
+    color: #64748b;
+    letter-spacing: 0.5px;
+    margin-bottom: 4px;
+  }
+
+  .box-value {
+    font-size: 1.5rem;
+    font-weight: 800;
+    color: #0f172a;
+  }
+
+  .box-value .unit {
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: #64748b;
+  }
+
+  .text-green { color: #16a34a; }
+  .text-blue { font-size: 1.15rem; color: #1e293b; }
+
+  .section-description {
+    padding: 35px 40px;
+  }
+
+  .section-header {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 1.15rem;
+    font-weight: 700;
+    color: #0f172a;
+    margin: 0 0 15px 0;
+  }
+
+  .desc-content {
+    background: #fdfdfd;
+    border: 1px dashed #cbd5e1;
+    border-radius: 8px;
+    padding: 20px;
+    color: #334155;
+    font-size: 1rem;
+    line-height: 1.6;
+  }
+
+  .card-footer-bar {
+    padding: 20px 40px;
+    background: #f8fafc;
+    border-top: 1px solid #e2e8f0;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .btn-action-secondary {
+    border: 1px solid #cbd5e1;
+    background: #ffffff;
+    color: #334155;
+    padding: 10px 18px;
+    border-radius: 6px;
+    text-decoration: none;
+    font-weight: 600;
+  }
+
+  .btn-action-dark {
+    background: #0f172a;
+    color: #ffffff;
+    padding: 10px 20px;
+    border-radius: 6px;
+    text-decoration: none;
+    font-weight: 600;
+  }
+</style>

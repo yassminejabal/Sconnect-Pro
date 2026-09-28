@@ -1,0 +1,141 @@
+<%- include('../partials/header') %>
+<%- include('../partials/navbar') %>
+
+<main class="dashboard-wrapper">
+  <!-- En-tête du tableau de bord -->
+  <header class="dashboard-header">
+    <div class="welcome-box">
+      <span class="badge-status">En direct</span>
+      <h1>Direction Municipale des Sports & Vie Associative</h1>
+      <p>Supervision des infrastructures sportives, suivi des plannings et inscriptions.</p>
+    </div>
+    <div class="quick-actions">
+      <a href="/registrations/new" class="btn btn-primary">+ Nouvelle inscription</a>
+      <a href="/activities/new" class="btn btn-secondary">+ Ajouter une activité</a>
+    </div>
+  </header>
+
+  <!-- Grille des statistiques (KPIs) -->
+  <section class="metrics-grid">
+    <div class="metric-card">
+      <div class="metric-icon icon-blue">🏢</div>
+      <div class="metric-data">
+        <span class="metric-label">Infrastructures</span>
+        <span class="metric-value"><%= totalFacilities %></span>
+        <span class="metric-trend text-success">100% opérationnelles</span>
+      </div>
+      <a href="/facilities" class="metric-link">Gérer les salles &rarr;</a>
+    </div>
+
+    <div class="metric-card">
+      <div class="metric-icon icon-amber">⚡</div>
+      <div class="metric-data">
+        <span class="metric-label">Disciplines actives</span>
+        <span class="metric-value"><%= totalActivities %></span>
+        <span class="metric-trend">Catalogue à jour</span>
+      </div>
+      <a href="/activities" class="metric-link">Consulter l'offre &rarr;</a>
+    </div>
+
+    <div class="metric-card">
+      <div class="metric-icon icon-emerald">👥</div>
+      <div class="metric-data">
+        <span class="metric-label">Adhérents inscrits</span>
+        <span class="metric-value"><%= typeof totalMembers !== 'undefined' ? totalMembers : '128' %></span>
+        <span class="metric-trend text-success">+12 cette semaine</span>
+      </div>
+      <a href="/members" class="metric-link">Voir le registre &rarr;</a>
+    </div>
+
+    <div class="metric-card">
+      <div class="metric-icon icon-purple">💳</div>
+      <div class="metric-data">
+        <span class="metric-label">Taux d'occupation</span>
+        <span class="metric-value">78%</span>
+        <span class="metric-trend">Créneaux réservés</span>
+      </div>
+      <a href="/registrations" class="metric-link">Voir le planning &rarr;</a>
+    </div>
+  </section>
+
+  <!-- Section principale : Tableau de bord & Raccourcis -->
+  <section class="dashboard-content-grid">
+    <!-- Panneau des inscriptions récentes -->
+    <div class="panel-card">
+      <div class="panel-header">
+        <h2>Dernières Inscriptions Enregistrées</h2>
+        <a href="/registrations" class="panel-action">Voir tout</a>
+      </div>
+      <div class="table-container">
+        <table class="data-table">
+          <thead>
+            <tr>
+              <th>Adhérent</th>
+              <th>Activité</th>
+              <th>Lieu</th>
+              <th>Date</th>
+              <th>Statut</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><strong>Karim Benali</strong></td>
+              <td>Natation Libre</td>
+              <td>Piscine Olympique</td>
+              <td>Aujourd'hui</td>
+              <td><span class="tag tag-success">Validé</span></td>
+            </tr>
+            <tr>
+              <td><strong>Sara Mansouri</strong></td>
+              <td>Basketball U17</td>
+              <td>Salle Omnisports</td>
+              <td>Hier</td>
+              <td><span class="tag tag-success">Validé</span></td>
+            </tr>
+            <tr>
+              <td><strong>Omar Tazi</strong></td>
+              <td>Tennis Club</td>
+              <td>Courts Municipaux</td>
+              <td>21 Sept.</td>
+              <td><span class="tag tag-pending">En attente</span></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- Panneau latéral : Alertes et disponibilité -->
+    <aside class="side-panel">
+      <div class="panel-card">
+        <div class="panel-header">
+          <h3>État des Complexes</h3>
+        </div>
+        <ul class="status-list">
+          <li class="status-item">
+            <span class="status-indicator online"></span>
+            <div>
+              <strong>Salle Omnisports</strong>
+              <p>Entraînement en cours (16h - 18h)</p>
+            </div>
+          </li>
+          <li class="status-item">
+            <span class="status-indicator online"></span>
+            <div>
+              <strong>Piscine Municipale</strong>
+              <p>Ouverte au public</p>
+            </div>
+          </li>
+          <li class="status-item">
+            <span class="status-indicator maintenance"></span>
+            <div>
+              <strong>Terrain Synthétique</strong>
+              <p>Maintenance pelouse programmée</p>
+            </div>
+          </li>
+        </ul>
+      </div>
+    </aside>
+  </section>
+</main>
+
+<%- include('../partials/footer') %>
