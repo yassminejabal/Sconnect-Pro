@@ -5,6 +5,7 @@ const router = require("find-my-way")({
   }
 });
 const familyController = require("../controllers/familyController");
+const activitieController = require("../controllers/activitieController");
 const homeController = require("../controllers/homeController");
 const activityController = require("../controllers/activityController");
 
@@ -12,6 +13,14 @@ const activityController = require("../controllers/activityController");
 router.on("GET", "/", (req, res) => {
   homeController.index(req, res);
 });
+router.on("GET", "/activitiess/:id", (req, res,params) => {
+  console.log(params);
+  
+  activitieController.getActivityById(req, res,params);
+});
+
+
+
 
 router.on("GET", "/dashboard", (req, res) => {
   homeController.index(req, res);
@@ -43,6 +52,9 @@ router.on("POST", "/activities/:id/edit", (req, res, params) => {
 });
 
 router.on("POST", "/activities/delete/:id", (req, res, params) => {
+  activityController.deleteActivity(req, res, params);
+});
+router.on("GET", "/activitie/stats", (req, res, params) => {
   activityController.deleteActivity(req, res, params);
 });
 
